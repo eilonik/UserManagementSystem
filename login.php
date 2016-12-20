@@ -4,9 +4,24 @@
     </head>
     <body>
         <?php
-            if($_SERVER["REQUEST_METHOD"] == "GET"){
+        include "server.php";
+        $connection = db_connect();
+        session_start();
+        $_SESSION["user"] = "";
+        if($_SERVER["REQUEST_METHOD"] == "GET"){
+            $email = $_REQUEST["email"];
+            $password = $_REQUEST["password"];
 
+            // prepared statement to prevent SQL injection
+            $query = "SELECT * FROM users WHERE email=? AND password=?";
+            $statement = $connection->prepare($query);
+            $statement->bind_param("ss", $email, $password);
+            $statement->execute();
+            $result = $statement->get_result();
+            if ($result->num_rows > 0) {
+                $query = "";
             }
+        }
         ?>
     </body>
 </html>
