@@ -7,6 +7,7 @@
     $email = $_GET["email"];
     $password = $_GET["password"];
 
+
     function db_connect(){
         $conn = mysqli_connect($GLOBALS["server"], $GLOBALS["dbUsername"],
             $GLOBALS["dbPassword"], $GLOBALS["database"]);

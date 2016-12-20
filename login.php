@@ -18,8 +18,20 @@
             $statement->bind_param("ss", $email, $password);
             $statement->execute();
             $result = $statement->get_result();
+
             if ($result->num_rows > 0) {
-                $query = "";
+                $_SESSION["user"]=$email;
+                if($_SESSION["user"] == "admin@admin"){
+                    header('Location: admin.php', true);
+                    exit();
+                }
+                else {
+                    header('Location: user.php', true);
+                    exit();
+                }
+            }
+            else{
+                echo "One of the details you entered is wrong!";
             }
         }
         ?>
