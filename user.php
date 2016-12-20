@@ -9,6 +9,7 @@
     </head>
     <body>
         <h1>Welcome <?php session_start(); echo $_SESSION["user"]; ?></h1>
+        <a href='logout.php'>logout</a>
         <h2>Logins:</h2>
         <?php
           include "server.php";
