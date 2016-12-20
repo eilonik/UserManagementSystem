@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
         <h1 align="center">User Management System</h1>
@@ -29,9 +29,11 @@
         </p>
         <br><br>
         <p>
-            <h3>Sign up:</h3>
-            <br>
+
         <form class="form-horizontal" method="get" name="signupForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+            <div class="form-group">
+                <label class="control-label col-sm-2"><h3>Sign up:</h3></label>
+            </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="email">Email:</label>
                 <div class="col-xs-2">
@@ -51,38 +53,43 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="col-sm-offset-2 col-sm-1">
                     <button type="submit">Submit</button>
                 </div>
             </div>
-        </form>
-        </p>
-    <?php
-    include "server.php";
-    if($_SERVER["REQUEST_METHOD"] == "GET") {
-        session_start();
-        $_SESSION['user'] = "";
+            <?php
+            include "server.php";
+            if($_SERVER["REQUEST_METHOD"] == "GET") {
+                session_start();
+                $_SESSION['user'] = "";
 
-        if($name == "" || $password == "" || $email == "") {
-            echo "All fields are required!";
-        }
-        else {
-            $connection = db_connect();
-            if($connection->connect_error){
-                echo "Connection Problem";
-            }
-            else {
-                $query = "INSERT INTO users VALUES('$email', '$name', '$password')";
-                if($connection->query($query) === TRUE) {
-                    $_SESSION['user'] = $email;
-                    $connection->query(db_login_stamp($email));
+                if($name == "" || $password == "" || $email == "") {
+                    echo "<div class='form-group'>
+                                <label class='control-label col-sm-2'><p style='color: red'>All fields are required!</label>
+                          </div>";
                 }
                 else {
-                    echo "User already exists";
+                    $connection = db_connect();
+                    if($connection->connect_error){
+                        echo "Connection Problem";
+                    }
+                    else {
+                        $query = "INSERT INTO users VALUES('$email', '$name', '$password')";
+                        if($connection->query($query) === TRUE) {
+                            $_SESSION['user'] = $email;
+                            $connection->query(db_login_stamp($email));
+                            header('Location: user.php', true);
+                            exit();
+                        }
+                        else {
+                            echo "User already exists";
+                        }
+                    }
                 }
             }
-        }
-    }
-    ?>
+            ?>
+        </form>
+        </p>
+
     </body>
 </html>

@@ -6,6 +6,7 @@
     $name = $_GET["name"];
     $email = $_GET["email"];
     $password = $_GET["password"];
+    $admin="admin@admin";
 
 
     function db_connect(){

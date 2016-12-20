@@ -21,7 +21,8 @@
 
             if ($result->num_rows > 0) {
                 $_SESSION["user"]=$email;
-                if($_SESSION["user"] == "admin@admin"){
+                $connection->query(db_login_stamp($email));
+                if($_SESSION["user"] == $admin){
                     header('Location: admin.php', true);
                     exit();
                 }
