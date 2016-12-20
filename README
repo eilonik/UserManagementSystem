@@ -1,0 +1,7 @@
+User management system
+
+In the server file, modify all the parameters to your system.
+make sure that your database consists of 2 tables named users and logins
+
+users fields are: email varchar(50) key, name varchar(50), password varchar(50)
+logins fields are email varchar(50), timestamp varchar(50)
