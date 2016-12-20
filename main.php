@@ -74,6 +74,12 @@
                         echo "Connection Problem";
                     }
                     else {
+
+                        // prevent XSS
+                        $email = htmlspecialchars($email);
+                        $password = htmlspecialchars($password);
+                        $name = htmlspecialchars($name);
+
                         $query = "INSERT INTO users VALUES('$email', '$name', '$password')";
                         if($connection->query($query) === TRUE) {
                             $_SESSION['user'] = $email;

@@ -3,6 +3,7 @@
     $database="DB";
     $dbUsername="guest";
     $dbPassword = "password";
+    $dumpPath = "/usr/bin/mysqldump";
     $name = $_GET["name"];
     $email = $_GET["email"];
     $password = $_GET["password"];
