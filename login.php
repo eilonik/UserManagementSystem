@@ -11,6 +11,7 @@
         if($_SERVER["REQUEST_METHOD"] == "GET"){
             $email = $_REQUEST["email"];
             $password = $_REQUEST["password"];
+            $password = hash('sha512', $password);
 
             // prepared statement to prevent SQL injection
             $query = "SELECT * FROM users WHERE email=? AND password=?";

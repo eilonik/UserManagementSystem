@@ -80,6 +80,8 @@
                         $password = htmlspecialchars($password);
                         $name = htmlspecialchars($name);
 
+                        $password = hash('sha512', $password);
+                        echo $password;
                         $query = "INSERT INTO users VALUES('$email', '$name', '$password')";
                         if($connection->query($query) === TRUE) {
                             $_SESSION['user'] = $email;
