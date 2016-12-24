@@ -45,8 +45,8 @@
                                   </tr>
                                 </thead>
                                 <tbody>";
-                                if($result->num_rows > 0){
-                                    while($row = $result->fetch_assoc()){
+                                if($result->rowCount() > 0){
+                                    while($row = $result->fetch()){
                                         $login = $row["timestamp"];
                                         echo "<tr><td>$email</td><td>$login</td></tr>\n";
                                     }
@@ -84,8 +84,8 @@
                                   </tr>
                                 </thead>
                                 <tbody>";
-                        if($result->num_rows > 0){
-                            while($row = $result->fetch_assoc()){
+                        if($result->rowCount() > 0){
+                            while($row = $result->fetch()){
                                 $email = $row["email"];
                                 $name = $row["name"];
                                 $password = $row["password"];
@@ -94,11 +94,9 @@
                             echo "</tbody>
                                 </table>";
                         }
-
                     }
                 }
             }
-
             else{
                 echo "Permission denied!";
             }

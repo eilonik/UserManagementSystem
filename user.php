@@ -17,9 +17,10 @@
           $connection = db_connect();
           $query = "SELECT * FROM logins WHERE email='$user'";
           $result = $connection->query($query);
-          if($result->num_rows > 0){
+          $result->setFetchMode(PDO::FETCH_ASSOC);
+          if($result->rowCount() > 0){
               echo "<p>\n";
-              while($row = $result->fetch_assoc()){
+              while($row = $result->fetch()){
                   $time = $row["timestamp"];
                   echo "<br>$time\n";
               }

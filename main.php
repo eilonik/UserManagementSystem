@@ -69,29 +69,34 @@
                           </div>";
                 }
                 else {
-                    $connection = db_connect();
-                    if($connection->connect_error){
-                        echo "Connection Problem";
-                    }
-                    else {
-
+                    try{
+                        $connection = db_connect();
                         // prevent XSS
                         $email = htmlspecialchars($email);
                         $password = htmlspecialchars($password);
                         $name = htmlspecialchars($name);
 
                         $password = hash('sha512', $password);
-                        echo $password;
-                        $query = "INSERT INTO users VALUES('$email', '$name', '$password')";
-                        if($connection->query($query) === TRUE) {
-                            $_SESSION['user'] = $email;
-                            $connection->query(db_login_stamp($email));
-                            header('Location: user.php', true);
-                            exit();
+                        try {
+                            $query = "SELECT * FROM users WHERE email='$email'";
+                            $result = $connection->query($query);
+                            if($result->rowCount() > 0) {
+                                echo "User already exists";
+                            }
+                            else{
+                                $query = "INSERT INTO users VALUES('$email', '$name', '$password')";
+                                $connection->exec($query);
+                                $_SESSION['user'] = $email;
+                                $connection->exec(db_login_stamp($email));
+                                header('Location: user.php', true);
+                                exit();
+                            }
                         }
-                        else {
-                            echo "User already exists";
+                        catch (Exception $e) {
+                            echo "Error";
                         }
+                    }catch (Exception $e){
+                        echo "Connection Problem";
                     }
                 }
             }

@@ -13,14 +13,11 @@
             $password = $_REQUEST["password"];
             $password = hash('sha512', $password);
 
-            // prepared statement to prevent SQL injection
-            $query = "SELECT * FROM users WHERE email=? AND password=?";
-            $statement = $connection->prepare($query);
-            $statement->bind_param("ss", $email, $password);
-            $statement->execute();
-            $result = $statement->get_result();
-
-            if ($result->num_rows > 0) {
+            $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
+            $result = $connection->query($query);
+            $result->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $result->fetch();
+            if($row["email"] != "") {
                 $_SESSION["user"]=$email;
                 $connection->query(db_login_stamp($email));
                 if($_SESSION["user"] == $admin){
@@ -32,9 +29,11 @@
                     exit();
                 }
             }
+
             else{
                 echo "One of the details you entered is wrong!";
             }
+
         }
         ?>
     </body>
